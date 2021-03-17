@@ -251,5 +251,18 @@ Therefore, our final multiple linear regression model after deleting the influen
 $$HateCrimeRate = -3.989 + 3.284* percHSdegree+ 3.136*incomeInequality$$
 In conclusion, although 'income inequality' is a very important predictor when we are studying hate crime rate per 100,000 population, we found that it does not most accurately influence and modify the outcome alone. In conjunction with the 'percentage of population with high school degree', the two predictors can better predict and fit the linear association with hate crime rate.
 
+# Discussion
+We tend to compare our situations with others in our peer groups, such as friends or people living in the same neighborhoods. When those people live a better life than us, or simply have higher economic status than us, we tend to feel discomfort. Although jealousy is one of the driving forces of human progress, it could evoke resentment towards others. We believe this is the logic behind the strong association between income inequality and hate crime rate. Moreover, because  a low education level could result in low income and low self-esteem, states where high school degrees are relatively more popular tend to have more cases of hate incidents. <br/>
+
+The resulting model is reasonable, but with some limitations. First, the data may be biased since the data were collected from media accounts and self-reported responses that include both hate crimes and non-prosecutable offenses. The self-reports not only lack subjectivity, but there  could also have been awareness bias, where more news coverage regarding hate crimes after the 2016 election could have impacted people's answers. Second, the data of the percentage of high school degrees was recorded in 2009, which is at least 6 years earlier than other variables. The discrepancy in when data were collected may derive unreliable estimates for making predictions. Moreover, although there are strong associations between the two predictors and hate crime rate, it does not necessarily imply causation. Further designed experiments need to be conducted to explore causal relationships. Finally, the resulting model could only be used to explain and make predictions on hate crimes in the US. It cannot be adequately applied to other countries due to different political systems, cultures, and societal backgrounds.
+<br/> Therefore, future studies could eliminate more bias by using more objective data collected from reliable resources and also examine data ranging over the years. In addition, the results may be more generalizable if future studies can examine data in not only the U.S. but also across different countries over the years. 
+
+
+
+# Conclusion
+
+In conclusion, although 'income inequality' is a very important predictor when we are studying hate crime rate per 100,000 population, we cannot say it most accurately influences and modifies the outcome alone. Together with 'percentage of population with high school degree', the two predictors can better predict and fit the linear association with hate crime rate. After checking for normality, correlation, and diagnostics including assumptions and outliers, we finalized on a regression model, which was validated using backward elimination method:
+$$HateCrimeRate = -3.989 + 3.284* percHSdegree+ 3.136*incomeInequality$$ <br/>
+Therefore, we conclude that the percentage of adults with high school degrees and income inequality are most closely associated with the hate crime rate across the US.
 
 
