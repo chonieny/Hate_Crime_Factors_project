@@ -178,3 +178,41 @@ These changes indicated that the model without 'med_income' is stronger than the
 Thus, we could conclude with the multiple linear regression model of:
 $$HateCrimeRate = -8.212 + 5.256* percHSdegree+ 8.702*incomeInequality$$
 
+##### Second MLR model selection using Backward Elimination method
+```{r, include=FALSE,fig.width=6, fig.height=4,fig.align='center'}
+hatecrime_mlr3<- lm(hate_crime_rate ~ gini_index + median_household_income + perc_population_with_high_school_degree + perc_non_citizen + perc_non_white + unemployment + urbanization, data = hatecrimes_df)
+step(hatecrime_mlr3, direction='backward')
+```
+
+We also used the Backward Elimination method and yielded a model with the same predictors (Table 3). This validated the first model that we produced above. 
+$$HateCrimeRate = -8.103 + 5.059* percHSdegree+ 8.825*incomeInequality$$ 
+The coefficients in this model slightly differed from the coefficients in the original model becauase this Backward Elimination method required users to drop all N/A values. 
+
+##### Model diagnostics
+
+To check the model assumptions and goodness of fit, we created a histogram (Figure 5). The overall shape of the histogram looked close to a normal distribution, so we could see that normality has been met.
+```{r, include=FALSE,fig.width=6, fig.height=4,fig.align='center'}
+hist(hatecrime_mlr2$residuals, main="Histogram of Residuals", xlab = "Hate Crime Rate Residuals")
+```
+
+
+```{r, include=FALSE,fig.width=6, fig.height=4,fig.align='center'}
+par(mfrow=c(2,2))
+plot(hatecrime_mlr2)
+```
+We also created diagnostic plots, and noticed that the residuals do not have any pattern around the 0 line, which indicates that there is a linear relationship (Figure 6). But some values stood out because they were outliers. In addition, the distances to the zero line were not equal, so we could see that there is a high interval of error terms of variability. The Q-Q plot also showed that the overall distribution of outcome is normal, except point 9, which suggested this point as an influential point in Residuals vs Leverage.
+
+```{r include=FALSE}
+hatecrime_no9 <- hatecrime %>% 
+  filter(state != 'District of Columbia')
+
+hatecrime_mlr2_no9 = lm(hate_crime ~ perc_HSdegree + income_inequ , data = hatecrime_no9)
+summary(hatecrime_mlr2_no9)
+```
+
+After outlier point 9 was removed, the coefficients of both `perc_HSdegree` and `income_inequ` changed greatly. The coefficient of `perc_HSdegree` decreased from 5.256 to 3.284 and the coefficient of `income_inequ` decreased from 8.702 to 3.136. 
+
+
+
+
+
