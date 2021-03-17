@@ -234,5 +234,22 @@ Since the distribution of our outcome variable(hate_crime_cate) was not normal, 
 In conclusion, we chose the model that does not contain the influential point in DC to be our final multiple linear regression model:
 $$HateCrimeRate = -3.989 + 3.284* percHSdegree+ 3.136*incomeInequality$$
 
+# Results
+For statistical methods, first we created a simple linear regression with the outcome of 'hate crime rate' and only one variable 'income inequality rate'. Since the p-value and R squared value were lower than expected, we looked for a more suitable multiple regression model. From the correlation matrix, we chose the variables 'median income', 'income inequality' and 'percentage of population with high school degree' as our variables since they were most closely associated with the hate crime rate per 100,000 population.
+
+Our first multiple linear regression model was better with the R squared value, which increased from 0.1249 to 0.4117. The coefficients of 'income inequality' and 'percentage of population with high school degree' both had p-values lower than 0.05, indicating that they are statistically significant in this model. However, the coefficient of 'median income' had a larger p-value of 0.877157. Therefore, further estimation and testing were needed.
+
+We also conducted the global F-test to see if all our coefficients are equal to zero, or if there is at least one coefficient that is not equal to zero. With the F statistic of 11.8 and critical value of 2.82, we could reject the null and conclude that with 95% confidence, at least one coefficient of this model is not equal to zero. 
+After removing the coefficient of 'median income', we conducted another F-test. We saw that there was a significant change on both the F-statistics and the adjusted R squared value. The F-statistic changed from 11.8 to 18.08 and the adjusted R-squared increased from 0.4132 to 0.4262.
+Therefore, we removed 'median income' from our final model and only used 'income inequality' and 'percentage of population with high school degree'. We validated the model using backward elimination, which selected the same variables.
+
+Therefore, we concluded with the multiple linear regression model of:
+$$HateCrimeRate = -8.212 + 5.256* percHSdegree+ 8.702*incomeInequality$$
+Lastly, we also conducted model diagnostics. The normality of the distribution of the data was tested with the histogram of residuals, which was close to a normal distribution. In addition, from the plot of residuals vs fitted values, we found that although there are some outliers, residuals do not have a distribution around line y = 0, indicating that there is a linear relationship. Since point 9 was suggested as an outlier in the plot, we deleted it form the data and refit the model using the variables selected.
+
+Therefore, our final multiple linear regression model after deleting the influential point of DC is:
+$$HateCrimeRate = -3.989 + 3.284* percHSdegree+ 3.136*incomeInequality$$
+In conclusion, although 'income inequality' is a very important predictor when we are studying hate crime rate per 100,000 population, we found that it does not most accurately influence and modify the outcome alone. In conjunction with the 'percentage of population with high school degree', the two predictors can better predict and fit the linear association with hate crime rate.
+
 
 
