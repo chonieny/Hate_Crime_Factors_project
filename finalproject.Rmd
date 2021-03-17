@@ -17,7 +17,7 @@ The current highest priority of the FBI’s civil rights program is hate crimes.
 
 10 days after the 2016 election, more hate crimes were reported to the Southern Poverty Law Center on average per day than in the time between 2010 and 2015 (Majumder, 2017). Using the data reported in this time frame, which includes details on hate crimes that occurred in the United States by state, we seek to address the strength of association between a variety of potential variables and the incidence of hate crimes. The variables include the levels of unemployment, level of state urbanization, the median household income per state, percentage of adults over the age of 25 with high school degrees, the percentage of the population that are non-us citizens, the percentage of the population that are non-white, and the Gini index number that measures income inequality for each state (Majumder, 2017)
 
-```{r}
+```{r, include=FALSE}
 # Load libraries
 rm(list = ls())
 library(tidyverse)
@@ -26,7 +26,7 @@ library(corrplot)
 library(boot)  
 ```
 
-```{r}
+```{r, include = FALSE}
 # Load and tidy data, missing values of outcome variable are removed
 hatecrimes_df <- read.csv("./data/HateCrimes.csv") %>% 
  filter(hate_crimes_per_100k_splc != 'N/A') %>% 
@@ -37,7 +37,7 @@ hatecrimes_df <- read.csv("./data/HateCrimes.csv") %>%
   select(-hate_crimes_per_100k_splc)
 ```
 
-```{r}
+```{r, include = FALSE}
 # Summary statistics
 my_labels<-list(hate_crime_rate = "Hate Crimes(per 100k)", unemployment = "Unemplotment Level", urbanization = "Urbanization Level", median_household_income = "Median Household Income(dollar)", perc_population_with_high_school_degree = "High School Degree Rate(%)", perc_non_citizen = "Non-Citizen Rate(%)", perc_non_white = "Non-White Rate(%)", gini_index =  "Gini Index")
 
@@ -64,7 +64,7 @@ summary(tab1, title = "Descriptive Statistics: Hate Crimes per 100K Population a
 The original dataset of hate crime rate per 100k population was recorded by the Southern Poverty Law Center during the first weeks of November, 2016. Variable names include `r names(hatecrimes_df)`. During the data cleaning process, 4 'N/A' observations of the outcome variable 'hate_crime_rate' were removed. Predictor variables 'unemployment' and 'urbanization' were converted to factors with levels of 'high' and 'low'. The rest of the predictor variables were numeric except 'state'. On average, 0.304 hate crime was committed per 100K population, which was as high as 1.522 in District of Columbia, the federal district. Both employment level and urbanization level were low in around half of the states and high in the rest. The median household income was 54802 dollars across the country with a standard deviation 9255. The variability of income could be addressed through the Gini Index, which had a mean value of 0.456. In other words, there is a big income gap in this country, on average. High school degree rate had a mean value of 86.6% with standard deviation of 3.4%. Moreover, Non-citizen rate had mean value of 5.5% with standard deviation of 3.1%. Lastly, non-white rate had mean value of 31.5% with standard deviation of 15%.
 
 ## Exploratory Data Analysis 
-```{r}
+```{r include= FALSE}
 #Distribution of Outcome Variable
 hatecrimes_df %>% 
   ggplot(aes(x = hate_crime_rate)) +
@@ -74,14 +74,14 @@ hatecrimes_df %>%
 
 First, we checked the distribution of the outcome variable to detect if any transformation for normality would be needed (Figure 1). Because the distribution was highly skewed to the right, we considered doing a log transformation to the hate_crime_rate variable. The distribution of the outcome variable looked much more normal after doing a log transformation (Figure 2). We also formed a correlation matrix (Table 1), which showed a strong positive association(0.651) between perc_population_with_high_school_degree and median_household_income, and a stronger positive association(0.753) between perc_non_white and perc_non_citizen. 
 
-```{r}
+```{r include=FALSE, fig.width=6, fig.height=4,fig.align='center'}
 hatecrimes_df %>% 
   ggplot(aes(x = log(hate_crime_rate))) +
   geom_density() +
   labs(x = 'Log Transformed Hate Crimes Rate (per 100k)', y = 'Density', title = 'Distribution of Outcome Variable: Log Transformed Hate Crimes Rate (per 100k)')
 ```
 
-```{r}
+```{r include=FALSE, fig.width=6, fig.height=4,fig.align='center'}
 # Correlation matrix for numeric variables 
 hatecrimes_df <- hatecrimes_df %>% 
   drop_na()
@@ -90,7 +90,7 @@ hatecrimes_df %>%
   cor()
 ```
 
-```{r}
+```{r include = FALSE}
 #Potential outliers/Influential points of outcome variable
 
 # (1) Identify unusual states by using the interval formed by 2.5 and 97.5 percentiles
@@ -120,7 +120,7 @@ Lastly, we also used the studentized residual model to identify potential outlie
 ## Further Data Analysis
 
 ##### Income inequality v.s. Hate crime rate 
-```{r}
+```{r message = FALSE, include = FALSE}
 hatecrime = read.csv("./data/HateCrimes.csv")
 hatecrime = hatecrime[!(hatecrime$hate_crimes_per_100k_splc == "N/A" ),]
 hatecrime = hatecrime %>%
@@ -141,11 +141,11 @@ From making a simple linear regression model that only includes income inequalit
 ##### First MLR model selection
 First, we made a matrix plot and examined the findings (Figure 3). We could see that there is a relationship between `med_income`, `perc_HSdegree` and `income_inequ`. So we used these three variables to predict the regression model.
 
-```{r}
+```{r, include=FALSE,fig.width=6, fig.height=4,fig.align='center'}
 plot(hatecrime[2:8], pch=16, col="blue", lower.panel = NULL)
 ```
 
-```{r}
+```{r include=FALSE,fig.width=6, fig.height=4,fig.align='center'}
 hatecrime_mlr1 = lm(hate_crime ~ med_income + perc_HSdegree + income_inequ , data = hatecrime)
 summary(hatecrime_mlr1)
 ```
@@ -154,7 +154,7 @@ From examining the summary output after running the multiple linear regression m
 In addition, we could see that by improving one index measuring income inequality, the average hate crime rate per 100,000 population increased by 8.799. Similarly, seeing an improvement in the percentage of population with high school degree by one percent leads to an extra 5.414 rate in average hate crime rate. These coefficients that correspond to 'income inequality' and 'percentage of population with high school degree' have p-values under 0.05, which indicate that they are statistically significant.
 However, the coefficient corresponding to 'median income' has a large p-value of 0.877157, which shows it is not statistically significant. 
 
-```{r}
+```{r include = FALSE}
 hatecrimecor = hatecrime %>%
   select(med_income,perc_HSdegree,income_inequ) %>%
   cor()
