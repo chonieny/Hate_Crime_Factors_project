@@ -265,4 +265,91 @@ In conclusion, although 'income inequality' is a very important predictor when w
 $$HateCrimeRate = -3.989 + 3.284* percHSdegree+ 3.136*incomeInequality$$ <br/>
 Therefore, we conclude that the percentage of adults with high school degrees and income inequality are most closely associated with the hate crime rate across the US.
 
+# Figures and Tables
+
+```{r echo=FALSE}
+#Distribution of Outcome Variable
+hatecrimes_df %>% 
+  ggplot(aes(x = hate_crime_rate)) +
+  geom_density() +
+  labs(x = 'Hate Crimes Rate (per 100k)', y = 'Density', title = 'Distribution of Outcome Variable: Hate Crimes Rate (per 100k)')
+```
+*Figure 1 Density Plot of Distribution of Outcome Variable: Hate Crime Rate (per 100k)*
+
+
+```{r, echo=FALSE, fig.width=6, fig.height=4,fig.align='center'}
+hatecrimes_df %>% 
+  ggplot(aes(x = log(hate_crime_rate))) +
+  geom_density() +
+  labs(x = 'Log Transformed Hate Crimes Rate (per 100k)', y = 'Density', title = 'Distribution of Outcome Variable: Log Transformed Hate Crimes Rate (per 100k)')
+```
+*Figure 2 Density Plot of Distribution of Outcome Variable after Log Transformation*
+
+
+
+```{r, echo=FALSE, fig.width=6, fig.height=4,fig.align='center'}
+# Correlation matrix for numeric variables 
+hatecrimes_df <- hatecrimes_df %>% 
+  drop_na()
+hatecrimes_df %>% 
+  select(hate_crime_rate, median_household_income, perc_population_with_high_school_degree, perc_non_citizen, perc_non_white, gini_index) %>% 
+  cor()
+```
+*Table 1 Correlation Matrix*
+
+
+
+```{r, echo=FALSE,fig.width=6, fig.height=4,fig.align='center' }
+plot(hatecrime[2:8], pch=16, col="blue", lower.panel = NULL)
+```
+*Figure 3 Correlation Matrix Plot*
+
+```{r, echo=FALSE,fig.width=6, fig.height=4,fig.align='center'}
+hatecrime_mlr1 = lm(hate_crime ~ med_income + perc_HSdegree + income_inequ , data = hatecrime)
+summary(hatecrime_mlr1)
+```
+*Table 2 Summary Output of Multiple Linear Regression Model that includes median household income per state, percentage of adults with a high school degree, and index measuring income inequality as factors *
+
+
+```{r echo=FALSE}
+hatecrimecor = hatecrime %>%
+  select(med_income,perc_HSdegree,income_inequ) %>%
+  cor()
+corrplot(hatecrimecor, method = "number")
+```
+*Figure 4 Correlation Matrix*
+
+
+
+```{r, echo=FALSE,fig.width=6, fig.height=4,fig.align='center'}
+hatecrime_mlr3<- lm(hate_crime_rate ~ gini_index + median_household_income + perc_population_with_high_school_degree + perc_non_citizen + perc_non_white + unemployment + urbanization, data = hatecrimes_df)
+step(hatecrime_mlr3, direction='backward')
+```
+*Table 3 Summary Table of MLR Model using Backward Elimination Method *
+
+
+```{r, echo=FALSE,fig.width=6, fig.height=4,fig.align='center'}
+hist(hatecrime_mlr2$residuals, main="Histogram of Residuals", xlab = "Hate Crime Rate Residuals")
+```
+*Figure 5 Histogram of Residuals*
+
+
+```{r, echo=FALSE,fig.width=6, fig.height=4,fig.align='center'}
+par(mfrow=c(2,2))
+plot(hatecrime_mlr2)
+```
+*Figure 6 Diagnostic Plots*
+
+
+# References
+
+Federal Bureau of Investigation. (n.d.). Hate Crimes. FBI: What We Investigate. Retrieved December 13, 2020, from https://www.fbi.gov/investigate/civil-rights/hate-crimes
+
+
+Balsamo, M. (2020, November 16). Hate crimes in US reach highest level in more than a decade. AP News. https://apnews.com/article/hate-crimes-rise-FBI-data-e
+bbcadca8458aba96575da905650120d
+
+
+Majumder, M. (2017, January 23). Higher Rates Of Hate Crimes Are Tied To Income Inequality. FiveThirtyEight. https://fivethirtyeight.com/features/higher-rates-of-hate-crimes-are-tied-to-income-inequality/
+
 
