@@ -16,3 +16,52 @@ In today's world where diversity abounds in every aspect of people’s lives, ha
 The current highest priority of the FBI’s civil rights program is hate crimes. A hate crime, as defined by the FBI, is a “criminal offense against a person or property motivated in whole or in part by an offender’s bias against a race, religion, disability, sexual orientation, ethnicity, gender, or gender identity.”(FBI, n.d.). The number of hate crimes committed yearly in the United States has been growing and, as of 2020, has risen to the highest level in more than a decade, with 7,134 reported cases from 2019 (Balsamo, 2020). This number could be severely lower than the actual count, as hate crime data is voluntarily reported by law enforcement and only 2,172 out of the 15,000 participating agencies reported to the FBI last year (Balsamo, 2020). However, with the increasing incidence of hate crimes, there is a growing urgency to find trends within the hate crime data that can assist law enforcement agencies in addressing potentially problematic issues or provide lawmakers with justification for certain legislation and aid the detection and prevention of future incidents. 
 
 10 days after the 2016 election, more hate crimes were reported to the Southern Poverty Law Center on average per day than in the time between 2010 and 2015 (Majumder, 2017). Using the data reported in this time frame, which includes details on hate crimes that occurred in the United States by state, we seek to address the strength of association between a variety of potential variables and the incidence of hate crimes. The variables include the levels of unemployment, level of state urbanization, the median household income per state, percentage of adults over the age of 25 with high school degrees, the percentage of the population that are non-us citizens, the percentage of the population that are non-white, and the Gini index number that measures income inequality for each state (Majumder, 2017)
+
+```{r}
+# Load libraries
+rm(list = ls())
+library(tidyverse)
+library(arsenal)
+library(corrplot)
+library(boot)  
+```
+
+```{r}
+# Load and tidy data, missing values of outcome variable are removed
+hatecrimes_df <- read.csv("./data/HateCrimes.csv") %>% 
+ filter(hate_crimes_per_100k_splc != 'N/A') %>% 
+  mutate(
+    unemployment = as.factor(unemployment),
+    urbanization = as.factor(urbanization),
+    hate_crime_rate = as.numeric(hate_crimes_per_100k_splc)) %>% 
+  select(-hate_crimes_per_100k_splc)
+```
+
+```{r}
+# Summary statistics
+my_labels<-list(hate_crime_rate = "Hate Crimes(per 100k)", unemployment = "Unemplotment Level", urbanization = "Urbanization Level", median_household_income = "Median Household Income(dollar)", perc_population_with_high_school_degree = "High School Degree Rate(%)", perc_non_citizen = "Non-Citizen Rate(%)", perc_non_white = "Non-White Rate(%)", gini_index =  "Gini Index")
+
+#make controls
+my_controls <- tableby.control(
+               total = F,
+               test=F,  # No test p-values yet
+               numeric.stats = c("N", "meansd", "medianq1q3", "min", "max", "Nmiss2"),
+               cat.stats = c("N", "countpct"),
+               stats.labels = list(
+                     meansd = "Mean (SD)",
+                     medianq1q3 = "Median (Q1, Q3)",
+                     min = "Min",
+                     max = "Max",
+                     Nmiss2 = "Missing",
+                     countpct = "N (%)"))
+
+#table 1
+tab1<-tableby(~ hate_crime_rate + unemployment + urbanization + median_household_income + perc_population_with_high_school_degree + perc_non_citizen + perc_non_white + gini_index, data = hatecrimes_df, control = my_controls)
+summary(tab1, title = "Descriptive Statistics: Hate Crimes per 100K Population and Possible Influential Variables", labelTranslations = my_labels, text = T)
+```
+
+
+
+
+
+
