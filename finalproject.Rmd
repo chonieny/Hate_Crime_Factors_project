@@ -63,6 +63,56 @@ summary(tab1, title = "Descriptive Statistics: Hate Crimes per 100K Population a
 ## Data Description
 The original dataset of hate crime rate per 100k population was recorded by the Southern Poverty Law Center during the first weeks of November, 2016. Variable names include `r names(hatecrimes_df)`. During the data cleaning process, 4 'N/A' observations of the outcome variable 'hate_crime_rate' were removed. Predictor variables 'unemployment' and 'urbanization' were converted to factors with levels of 'high' and 'low'. The rest of the predictor variables were numeric except 'state'. On average, 0.304 hate crime was committed per 100K population, which was as high as 1.522 in District of Columbia, the federal district. Both employment level and urbanization level were low in around half of the states and high in the rest. The median household income was 54802 dollars across the country with a standard deviation 9255. The variability of income could be addressed through the Gini Index, which had a mean value of 0.456. In other words, there is a big income gap in this country, on average. High school degree rate had a mean value of 86.6% with standard deviation of 3.4%. Moreover, Non-citizen rate had mean value of 5.5% with standard deviation of 3.1%. Lastly, non-white rate had mean value of 31.5% with standard deviation of 15%.
 
+## Exploratory Data Analysis 
+```{r}
+#Distribution of Outcome Variable
+hatecrimes_df %>% 
+  ggplot(aes(x = hate_crime_rate)) +
+  geom_density() +
+  labs(x = 'Hate Crimes Rate (per 100k)', y = 'Density', title = 'Distribution of Outcome Variable: Hate Crimes Rate (per 100k)')
+```
 
+First, we checked the distribution of the outcome variable to detect if any transformation for normality would be needed (Figure 1). Because the distribution was highly skewed to the right, we considered doing a log transformation to the hate_crime_rate variable. The distribution of the outcome variable looked much more normal after doing a log transformation (Figure 2). We also formed a correlation matrix (Table 1), which showed a strong positive association(0.651) between perc_population_with_high_school_degree and median_household_income, and a stronger positive association(0.753) between perc_non_white and perc_non_citizen. 
 
+```{r}
+hatecrimes_df %>% 
+  ggplot(aes(x = log(hate_crime_rate))) +
+  geom_density() +
+  labs(x = 'Log Transformed Hate Crimes Rate (per 100k)', y = 'Density', title = 'Distribution of Outcome Variable: Log Transformed Hate Crimes Rate (per 100k)')
+```
 
+```{r}
+# Correlation matrix for numeric variables 
+hatecrimes_df <- hatecrimes_df %>% 
+  drop_na()
+hatecrimes_df %>% 
+  select(hate_crime_rate, median_household_income, perc_population_with_high_school_degree, perc_non_citizen, perc_non_white, gini_index) %>% 
+  cor()
+```
+
+```{r}
+#Potential outliers/Influential points of outcome variable
+
+# (1) Identify unusual states by using the interval formed by 2.5 and 97.5 percentiles
+lower_bound <- quantile(hatecrimes_df$hate_crime_rate, 0.025)
+upper_bound <- quantile(hatecrimes_df$hate_crime_rate, 0.975)
+
+outlier <- which(hatecrimes_df$hate_crime_rate < lower_bound | hatecrimes_df$hate_crime_rate > upper_bound)
+hatecrimes_df[outlier, ] %>% select(state, hate_crime_rate)
+
+# (2) Identify unusual states by using the rule that depicts outliers (value less than Q1 - 1.5(IQR), value greater than Q3 + 1.5(IQR)) -> Thus, look for values smaller than -0.178 or greater than 0.678
+
+hatecrimes_df %>% 
+  filter(hate_crime_rate > 0.678) %>%
+  select(state, hate_crime_rate)
+
+# (3) Identify unusual states by using studentized residual, 9th row returned: District of Columbia.
+fit_full <- lm(hate_crime_rate ~ gini_index + median_household_income + perc_population_with_high_school_degree + perc_non_citizen + perc_non_white + unemployment + urbanization, data = hatecrimes_df)
+stu_res<-rstandard(fit_full)
+outliers_y<-stu_res[abs(stu_res)>2.5]
+outliers_y
+```
+
+Moreover, one of the ways we tried to identify states with unusual rates was to identify states that have the hate crime rates below the 2.5 percentile and above the 97.5 percentile. From doing so, Arkansas, District of Columbia, Mississippi, and Oregon were selected. 
+We also identified outlier states by using the rule that depicts outliers, which are defined as values less than Q1-1.5(IQR) and values greater than Q3+1.5(IQR). From doing so, District of Columbia and Oregon were selected. 
+Lastly, we also used the studentized residual model to identify potential outliers. This returned District of Columbia as the only outlier.
