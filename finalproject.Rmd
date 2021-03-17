@@ -212,7 +212,22 @@ summary(hatecrime_mlr2_no9)
 
 After outlier point 9 was removed, the coefficients of both `perc_HSdegree` and `income_inequ` changed greatly. The coefficient of `perc_HSdegree` decreased from 5.256 to 3.284 and the coefficient of `income_inequ` decreased from 8.702 to 3.136. 
 
+##### Bootstraps
 
+```{r include=FALSE}
+#bootstrap to assess the variability of model estimates: b0,b1,b2
+boot.fn<-function(data, index){
+	return(coef(lm(hate_crime ~ perc_HSdegree + income_inequ , data = hatecrime_no9, subset=index)))
+}
+
+set.seed(1)
+
+# Use function boot() to repeat the sampling 1000 times to get the estimates, SEs ad bias
+
+boot(hatecrime, boot.fn, 1000)
+```
+
+Since the distribution of our outcome variable(hate_crime_cate) was not normal, we used the bootstrap method to check the variability of model estimates. We found that the coefficient of income inequality had the greatest standard error(1.742). This implied that income inequality has a more uncertain extent of influence on hate crime rate compared to the percentage of adults with a high-school degree. 
 
 
 
