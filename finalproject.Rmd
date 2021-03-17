@@ -229,5 +229,10 @@ boot(hatecrime, boot.fn, 1000)
 
 Since the distribution of our outcome variable(hate_crime_cate) was not normal, we used the bootstrap method to check the variability of model estimates. We found that the coefficient of income inequality had the greatest standard error(1.742). This implied that income inequality has a more uncertain extent of influence on hate crime rate compared to the percentage of adults with a high-school degree. 
 
+##### Final model
+
+In conclusion, we chose the model that does not contain the influential point in DC to be our final multiple linear regression model:
+$$HateCrimeRate = -3.989 + 3.284* percHSdegree+ 3.136*incomeInequality$$
+
 
 
