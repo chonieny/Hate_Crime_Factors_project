@@ -116,3 +116,65 @@ outliers_y
 Moreover, one of the ways we tried to identify states with unusual rates was to identify states that have the hate crime rates below the 2.5 percentile and above the 97.5 percentile. From doing so, Arkansas, District of Columbia, Mississippi, and Oregon were selected. 
 We also identified outlier states by using the rule that depicts outliers, which are defined as values less than Q1-1.5(IQR) and values greater than Q3+1.5(IQR). From doing so, District of Columbia and Oregon were selected. 
 Lastly, we also used the studentized residual model to identify potential outliers. This returned District of Columbia as the only outlier.
+
+## Further Data Analysis
+
+##### Income inequality v.s. Hate crime rate 
+```{r}
+hatecrime = read.csv("./data/HateCrimes.csv")
+hatecrime = hatecrime[!(hatecrime$hate_crimes_per_100k_splc == "N/A" ),]
+hatecrime = hatecrime %>%
+  mutate(med_income = median_household_income,
+         perc_HSdegree = perc_population_with_high_school_degree,
+         income_inequ = gini_index,
+         hate_crime = as.numeric(hate_crimes_per_100k_splc)
+         ) %>%
+  select(-median_household_income, -perc_population_with_high_school_degree, -hate_crimes_per_100k_splc)
+
+hatecrime_lm = lm(hate_crime ~ income_inequ, data = hatecrime)
+summary(hatecrime_lm)
+plot(hate_crime ~ income_inequ, data = hatecrime) + abline(hatecrime_lm)
+```
+
+From making a simple linear regression model that only includes income inequality as the variable, we were able to find that the p-value (0.02374) and the adjusted r-squared value (0.08872) were low. While the low p-value was a good indicator of statistical significance, the adjusted r-squared revealed that only 8.872% of the data will adequately fit the regression model. Also, looking at the fitted model, we could see that not all the points are along the regression line and that there is a major outlier point as well. Therefore, we sought to find a more precise model by constructing a multiple regression model.
+
+##### First MLR model selection
+First, we made a matrix plot and examined the findings (Figure 3). We could see that there is a relationship between `med_income`, `perc_HSdegree` and `income_inequ`. So we used these three variables to predict the regression model.
+
+```{r}
+plot(hatecrime[2:8], pch=16, col="blue", lower.panel = NULL)
+```
+
+```{r}
+hatecrime_mlr1 = lm(hate_crime ~ med_income + perc_HSdegree + income_inequ , data = hatecrime)
+summary(hatecrime_mlr1)
+```
+
+From examining the summary output after running the multiple linear regression model (Table 2), we could see that the adjusted R squared increased from 0.08872 to 0.4132. 
+In addition, we could see that by improving one index measuring income inequality, the average hate crime rate per 100,000 population increased by 8.799. Similarly, seeing an improvement in the percentage of population with high school degree by one percent leads to an extra 5.414 rate in average hate crime rate. These coefficients that correspond to 'income inequality' and 'percentage of population with high school degree' have p-values under 0.05, which indicate that they are statistically significant.
+However, the coefficient corresponding to 'median income' has a large p-value of 0.877157, which shows it is not statistically significant. 
+
+```{r}
+hatecrimecor = hatecrime %>%
+  select(med_income,perc_HSdegree,income_inequ) %>%
+  cor()
+corrplot(hatecrimecor, method = "number")
+```
+To be more specific, we could test using the global (overall) F-test to see if all our coefficients are equal to zero or if there is at least one coefficient that is not equal to zero. With the F-statistic of 11.8 with df 3 and 43, and critical value of 2.82, we could reject the null(because F-stat > F-crit) and conclude that there is at least one coefficient that is not equal to zero. Therefore, we had some evidence that at least one of the predictors is associated with hate crime rate.
+
+```{r include=FALSE}
+qf(0.95,3,43)
+```
+Next, we created another correlation matrix of these three variables in the model (Figure 4). Here, we could see that `med_income` is associated with the percentage of population with HS degree, but there was no evidence that it is related with the index measurement of income inequality.
+
+```{r include=FALSE}
+hatecrime_mlr2 = lm(hate_crime ~ perc_HSdegree + income_inequ , data = hatecrime)
+summary(hatecrime_mlr2)
+```
+We then considered removing `med_income` from the model and saw how the model fit changed.
+Looking at the regression analysis summary, we could see that there was a significant change on both the F-statistics and the adjusted R-squared value. the F-statistic changed from 11.8 to 18.08 and the adjusted R-squared increased from 0.4132 to 0.4262.
+These changes indicated that the model without 'med_income' is stronger than the model that includes 'med_income'. 
+
+Thus, we could conclude with the multiple linear regression model of:
+$$HateCrimeRate = -8.212 + 5.256* percHSdegree+ 8.702*incomeInequality$$
+
