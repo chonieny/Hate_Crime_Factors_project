@@ -1,0 +1,10 @@
+---
+title: "P8130 Final Report"
+author: Amanda Tsai, Na Yun Cho, Rosemary Hahm, Ruwen Zhou, Yubei Liang
+output:
+  rmarkdown::pdf_document:
+    fig_caption: yes        
+    includes:  
+      in_header: my_header.tex
+---
+
