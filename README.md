@@ -18,7 +18,7 @@ This project aims to build a multiple linear regression model to identify factor
 * The distribution of each feature was checked.<br/>
   Log transformation was done on the skewed features, which made their distributions more normal.<br/> 
 * Using the 1.5 IQR rule, states that might contain outlier outcome values were identified<br/>
-  &#8594; the states were Oregon and District of Columbia 
+  &#8594; the states were Oregon and District of Columbia<br/> 
   &#8594; An extreme outlier value was dropped 
 
 ### Data Cleaning 
@@ -29,7 +29,7 @@ This project aims to build a multiple linear regression model to identify factor
 
 ### Fit Multiple Linear Regression Models & Choose Final Model 
 * From the correlation matrix, it could be seen that 'median income', 'income inequality', and 'percentage of population with high school degree' are most
-  correlated with 'hate crime rate'.
+  correlated with 'hate crime rate'. Each of these features are in the unit of a US state. 
   Thus, these three independent features were selected for the first multiple linear regression(MLR) model<br/>
   &#8594; The coefficients of 'income inequality' and 'percentage of population with high school degree' had p values lower than 0.05 but the coefficient
   of 'median income' did not<br/>
