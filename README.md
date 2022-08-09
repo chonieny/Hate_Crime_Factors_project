@@ -22,6 +22,8 @@ This project aims to build a multiple linear regression model to identify factor
   &#8594; an extreme outlier value was dropped 
 * Correlations between features were checked as well 
 
+
+
 ### Data Cleaning 
 * Data were scaled
 * Some variable types were converted to factors 
