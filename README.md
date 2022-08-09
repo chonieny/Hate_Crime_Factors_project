@@ -11,7 +11,7 @@ This project aims to build a multiple linear regression model to identify factor
     - Interpretation
   
 * **Data & Coding Language Used**
-    - Data: data of every state collected from the Southern Poverty Law Center in the first weeks of November 2016 
+    - Data: data of every US state collected from the Southern Poverty Law Center in the first weeks of November 2016 
     - R Version: 
     - Packages: 
 
