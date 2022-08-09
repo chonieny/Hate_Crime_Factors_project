@@ -46,6 +46,6 @@ This project aims to build a multiple linear regression model to identify factor
   &#8594; The histogram of residuals showed a normal distribution<br/> 
   &#8594; The residual plot showed that the residuals do not have a distribution around the line y =0 
   
-* Thus, the confirmed final model was:<br/>
+* Thus, the confirmed final model was: <br/>
   Hate Crime Rate = -3.989 + 3.284 * percentage of HS degree + 3.136 * Income Inequality
 
