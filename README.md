@@ -13,7 +13,7 @@ This project aims to build a multiple linear regression model to identify factor
 * **Data & Coding Language Used**
     - Data: data of every US state collected from the Southern Poverty Law Center in the first weeks of November 2016 
     - R Version: 4.0.3
-    - Packages: 
+    - Packages: tidyverse, arsenal, corrplot, boot
 
 
 ### Exploratory Data Analysis 
