@@ -30,20 +30,20 @@ This project aims to build a multiple linear regression model to identify factor
 ### Fit Multiple Linear Regression Models & Choose Final Model 
 * From the correlation matrix, it could be seen that 'median income', 'income inequality', and 'percentage of population with high school degree' are most
   correlated with 'hate crime rate'.
-  Thus, these three independent features were selected for the first multiple linear regression(MLR) model.  
+  Thus, these three independent features were selected for the first multiple linear regression(MLR) model.<br/>
   &#8594; The coefficients of 'income inequality' and 'percentage of population with high school degree' had p values lower than 0.05 but the coefficient
   of 'median income' did not.<br/>
-  &#8594; From the global F-test, it could be concluded that at least one coefficient of the model is not equal to zero.
+  &#8594; From the global F-test, it could be concluded that at least one coefficient of the model is not equal to zero.<br/>
   &#8594; Adjusted R squared value was checked as well 
   
-* Another MLR model was fit without 'median income' this time  
-  &#8594; Both the F-statistic and adjusted R squared value increased 
+* Another MLR model was fit without 'median income' this time<br/>
+  &#8594; Both the F-statistic and adjusted R squared value increased<br/>
   &#8594; This model was validated using backward elimination, which selected the same features.
   
-* Lastly, model diagnostics were done 
-  &#8594; The histogram of residuals showed a normal distribution 
+* Lastly, model diagnostics were done<br/>
+  &#8594; The histogram of residuals showed a normal distribution<br/> 
   &#8594; The residual plot showed that the residuals do not have a distribution around the line y =0 
   
-* Thus, the confirmed final model was :
+* Thus, the confirmed final model was:<br/>
   Hate Crime Rate = -3.989 + 3.284 * percentage of HS degree + 3.136 * Income Inequality
 
