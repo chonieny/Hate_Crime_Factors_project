@@ -22,7 +22,10 @@ This project aims to build a multiple linear regression model to identify factor
   &#8594; the states were Oregon and District of Columbia 
 
 ### Data Cleaning 
-
+* Dropped the very few missing values that were present in the dataset 
+* Data were scaled 
+* Skewed features underwent log transformation
+* Some variable types were converted to factors 
 
 ### Fit Multiple Linear Regression Models & Choose Final Model 
 
