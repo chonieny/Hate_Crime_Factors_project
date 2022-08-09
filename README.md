@@ -28,6 +28,9 @@ This project aims to build a multiple linear regression model to identify factor
 * Some variable types were converted to factors 
 
 ### Fit Multiple Linear Regression Models & Choose Final Model 
-
+* From the correlation matrix that shows the correlations between each independent feature and the dependent variable, it could be seen that 'median income', 'income inequality', and 'percentage of population with high school degree' are most correlated with 'hate crime rate'.<br/>
+Thus, these three independent features were selected for the first multiple linear regression(MLR) model.<br/>  
+ &#8594; The coefficients of 'income inequality' and 'percentage of population with high school degree' had p values lower than 0.05 but the coefficient of 'median income' did not.<br/>
+ &#8594; From the global F-test, it could be concluded that at least one coefficient of the model is not equal to zero. 
 
 ### Interpretation 
