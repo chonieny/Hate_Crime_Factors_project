@@ -18,12 +18,12 @@ This project aims to build a multiple linear regression model to identify factor
 ### Exploratory Data Analysis 
 * The distribution of each feature was checked.<br/>
   Log transformation was done on the skewed features, which made their distributions more normal.<br/> 
-* Using the 1.5 IQR rule, identified states that might contain outlier outcome values<br/>
+* Using the 1.5 IQR rule, states that might contain outlier outcome values were identified<br/>
   &#8594; the states were Oregon and District of Columbia 
 
 ### Data Cleaning 
 * Dropped the very few missing values that were present in the dataset 
-* Data were scaled 
+* Data were scaled
 * Skewed features underwent log transformation
 * Some variable types were converted to factors 
 
