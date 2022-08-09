@@ -15,11 +15,16 @@ This project aims to build a multiple linear regression model to identify factor
     - R Version: 4.0.3
     - Packages: tidyverse, arsenal, corrplot, boot
 
-
 ### Exploratory Data Analysis 
+* The distribution of each feature was checked.<br/>
+  Log transformation was done on the skewed features, which made their distributions more normal. 
+* Using the 1.5 IQR rule, identified states that might contain outlier outcome values 
+  
 
 ### Data Cleaning 
 
+
 ### Fit Multiple Linear Regression Models & Choose Final Model 
+
 
 ### Interpretation 
