@@ -20,6 +20,7 @@ This project aims to build a multiple linear regression model to identify factor
 * Using the 1.5 IQR rule, states that might contain outlier outcome values were identified<br/>
   &#8594; the states were Oregon and District of Columbia<br/> 
   &#8594; an extreme outlier value was dropped 
+* Correlations between features were checked as well 
 
 ### Data Cleaning 
 * Data were scaled
