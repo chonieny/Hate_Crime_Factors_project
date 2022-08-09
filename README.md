@@ -21,8 +21,7 @@ This project aims to build a multiple linear regression model to identify factor
   &#8594; the states were Oregon and District of Columbia<br/> 
   &#8594; an extreme outlier value was dropped 
 * Correlations between features were checked as well 
-
-
+<img src = "visualization1.png" style = "width: 50%">
 
 ### Data Cleaning 
 * Data were scaled
