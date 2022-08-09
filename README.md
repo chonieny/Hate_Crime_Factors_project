@@ -19,7 +19,7 @@ This project aims to build a multiple linear regression model to identify factor
   Log transformation was done on the skewed features, which made their distributions more normal.<br/> 
 * Using the 1.5 IQR rule, states that might contain outlier outcome values were identified<br/>
   &#8594; the states were Oregon and District of Columbia<br/> 
-  &#8594; An extreme outlier value was dropped 
+  &#8594; an extreme outlier value was dropped 
 
 ### Data Cleaning 
 * Data were scaled
