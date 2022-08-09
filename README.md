@@ -1,4 +1,4 @@
-# Exploration of Factors Associated with Hate Crime Rates in the U.S.: Project Overview
+# Exploration of Factors Associated with Hate Crime Rates in the US: Project Overview
 
 * Objective
 
