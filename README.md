@@ -42,7 +42,7 @@ This project aims to build a multiple linear regression model to identify factor
   &#8594; Both the F-statistic and adjusted R squared value increased<br/>
   &#8594; This model was validated using backward elimination, which selected the same features for the model
   
-* Lastly, model diagnostics were done<br/>
+* Lastly, model diagnostics were performed<br/>
   &#8594; The histogram of residuals showed a normal distribution<br/> 
   &#8594; The residual plot showed that the residuals do not have a distribution around the line y =0 
   
