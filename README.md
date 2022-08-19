@@ -15,7 +15,7 @@ This project aims to build a multiple linear regression model to identify factor
     - Packages: tidyverse, arsenal, corrplot, boot
 
 ### Exploratory Data Analysis 
-* The distribution of each feature was checked <br/>
+* The distribution of each feature was checked<br/>
   Log transformation was done on the skewed features, which made their distributions more normal<br/> 
 * Using the 1.5 IQR rule, states that might contain outlier outcome values were identified<br/>
   &#8594; they were Oregon and District of Columbia<br/> 
